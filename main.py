@@ -16,6 +16,8 @@ user = r.get_redditor(user_name)
 post_limit = 1000
 gen = user.get_comments(limit=post_limit)
 firstcomment = 'HopeTheInfiteMonkeyTheorumIsWrong'
+if not os.path.exists('C:\\RWBY'):
+    os.makedirs('C:\\RWBY')
 f = open('C:\\RWBY\\lastcomment.txt', 'r+')
 lastcomment = f.readline();
 f.close()
