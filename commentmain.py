@@ -1,4 +1,4 @@
-import praw, re, imguralbum, os
+import praw, re, imguralbum, os, sys
 import urllib.request, urllib.parse, urllib.error
 from tokens import app_key, app_secret, access_token, refresh_token
 from settings import scopes, user_agent, redirect_url
@@ -30,12 +30,12 @@ for com in gen:
         print('First comment was ID: ', firstcomment)
     if com.id not in lastcomment:
         for seg in s:
-            if '//imgur.com/a' in seg:
+            if 'imgur.com/a' in seg:
                 print('Album: ',seg)
                 downloader = imguralbum.ImgurAlbumDownloader(seg)
                 print('This albums has ', int(downloader.num_images()/2), 'images')
                 downloader.save_images()
-            elif '//i.imgur.com/' in seg:
+            elif 'i.imgur.com/' in seg:
                 print('Image: ',seg)
                 path = 'C:\\RWBY\\' + seg.split('imgur.com/')[1]
                 if os.path.isfile(path):
@@ -51,4 +51,10 @@ for com in gen:
         f = open('C:\\RWBY\\lastcomment.txt', 'w')
         f.write(firstcomment)
         f.close()
-        break
+        sys.exit()
+
+print('Reached end of stream')
+f = open('C:\\RWBY\\lastcomment.txt', 'w')
+f.write(firstcomment)
+f.close()
+sys.exit()
