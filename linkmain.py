@@ -65,7 +65,7 @@ for sub in gen:
         f = open('C:\\RWBY\\lastsub.txt', 'w')
         f.write(firstsub)
         f.close()
-        sys.exit()
+        break
 
 print('Reached end of stream')
 f = open('C:\\RWBY\\lastsub.txt', 'w')

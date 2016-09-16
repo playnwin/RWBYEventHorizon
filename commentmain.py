@@ -51,7 +51,7 @@ for com in gen:
         f = open('C:\\RWBY\\lastcomment.txt', 'w')
         f.write(firstcomment)
         f.close()
-        sys.exit()
+        break
 
 print('Reached end of stream')
 f = open('C:\\RWBY\\lastcomment.txt', 'w')
