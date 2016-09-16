@@ -1,4 +1,4 @@
-import praw, re, imguralbum, os
+import praw, re, imguralbum, os, sys
 import urllib.request, urllib.parse, urllib.error
 from tokens import app_key, app_secret, access_token, refresh_token
 from settings import scopes, user_agent, redirect_url
@@ -14,7 +14,7 @@ user_name = 'VelvetBot'
 user = r.get_redditor(user_name)
 
 post_limit = 1000
-gen = r.search('site:imgur.com', subreddit='RWBY')
+gen = r.search('site:imgur.com', subreddit='RWBY', sort='new')
 firstsub = 'HopeTheInfiteMonkeyTheorumIsWrong'
 if not os.path.exists('C:\\RWBY'):
     os.makedirs('C:\\RWBY')
@@ -28,12 +28,17 @@ for sub in gen:
         firstsub = sub.id
         print('First submission was ID: ', firstsub)
     if sub.id not in lastsub:
-        if '//imgur.com/a' in sub.url:
+        if 'imgur.com/a' in sub.url:
             print('Album: ',sub.url)
             downloader = imguralbum.ImgurAlbumDownloader(sub.url)
             print('This albums has ', int(downloader.num_images()/2), 'images')
             downloader.save_images()
-        elif '//i.imgur.com/' in sub.url:
+        elif 'imgur.com/gallery/' in sub.url:
+            print('Gallery: ', sub.url)
+            downloader = imguralbum.ImgurAlbumDownloader(sub.url.replace('gallery', 'a'))
+            print('This albums has ', int(downloader.num_images() / 2), 'images')
+            downloader.save_images()
+        elif 'i.imgur.com/' in sub.url:
             print('Direct Image: ',sub.url)
             path = 'C:\\RWBY\\' + sub.url.split('imgur.com/')[1]
             if os.path.isfile(path):
@@ -44,7 +49,7 @@ for sub in gen:
                 except:
                     print('Download failed.')
                     os.remove(path)
-        elif '//imgur.com/' in sub.url:
+        elif 'imgur.com/' in sub.url:
             print('Image: ', sub.url)
             path = 'C:\\RWBY\\' + sub.url.split('imgur.com/')[1]+'.png'
             if os.path.isfile(path):
@@ -60,4 +65,10 @@ for sub in gen:
         f = open('C:\\RWBY\\lastsub.txt', 'w')
         f.write(firstsub)
         f.close()
-        break
+        sys.exit()
+
+print('Reached end of stream')
+f = open('C:\\RWBY\\lastsub.txt', 'w')
+f.write(firstsub)
+f.close()
+sys.exit()
