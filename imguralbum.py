@@ -141,7 +141,6 @@ class ImgurAlbumDownloader:
         for (counter, image) in enumerate(self.imageIDs, start=1):
             if counter <= len(self.imageIDs)/2:
                 image_url = "http://i.imgur.com/"+image[0]+image[1]
-
                 prefix = "%0*d-" % (
                     int(math.ceil(math.log(len(self.imageIDs) + 1, 10))),
                     counter

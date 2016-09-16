@@ -1,14 +1,15 @@
-import praw, re, imguralbum, os, sys
+import praw, re, imguralbum, os, sys, imgurpython
 import urllib.request, urllib.parse, urllib.error
-from tokens import app_key, app_secret, access_token, refresh_token
+from tokens import app_key, app_secret, access_token, refresh_token, imgur_client_secret, imgur_client_key, imgur_access_token, imgur_refresh_token, album_id
 from settings import scopes, user_agent, redirect_url
 
 r = praw.Reddit(user_agent=user_agent)
-
 r.set_oauth_app_info(client_id=app_key,
                       client_secret=app_secret,
                      redirect_uri=redirect_url)
 r.refresh_access_information(refresh_token)
+
+client = imgurpython.ImgurClient(imgur_client_key, imgur_client_secret, imgur_access_token, imgur_refresh_token)
 
 user_name = 'VelvetBot'
 user = r.get_redditor(user_name)
@@ -30,11 +31,15 @@ for com in gen:
         print('First comment was ID: ', firstcomment)
     if com.id not in lastcomment:
         for seg in s:
-            if 'imgur.com/a' in seg:
+            if '/imgur.com/a' in seg:
                 print('Album: ',seg)
                 downloader = imguralbum.ImgurAlbumDownloader(seg)
                 print('This albums has ', int(downloader.num_images()/2), 'images')
                 downloader.save_images()
+                for (counter, image) in enumerate(downloader.imageIDs, start=1):
+                    if counter <= len(downloader.imageIDs) / 2:
+                        client.album_add_images(album_id, image[0])
+                        print('Image added to album')
             elif 'i.imgur.com/' in seg:
                 print('Image: ',seg)
                 path = 'C:\\RWBY\\' + seg.split('imgur.com/')[1]
@@ -46,6 +51,8 @@ for com in gen:
                     except:
                         print('Download failed.')
                         os.remove(path)
+                client.album_add_images(album_id, seg.split('imgur.com/')[1].split('.')[0])
+                print('Image added to album')
     else:
         print('Found last comment, ending')
         f = open('C:\\RWBY\\lastcomment.txt', 'w')
