@@ -27,6 +27,7 @@ for sub in gen:
         firstsub = sub.id
         print('First submission was ID: ', firstsub)
     if sub.id not in lastsub:
+        sub.url = sub.url.replace('m.', '')
         if '/imgur.com/a' in sub.url:
             print('Album: ',sub.url)
             downloader = imguralbum.ImgurAlbumDownloader(sub.url)
