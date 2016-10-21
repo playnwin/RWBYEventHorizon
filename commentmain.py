@@ -9,7 +9,7 @@ r.set_oauth_app_info(client_id=app_key,
                      redirect_uri=redirect_url)
 r.refresh_access_information(refresh_token)
 
-client = imgurpython.ImgurClient(imgur_client_key, imgur_client_secret, imgur_access_token, imgur_refresh_token)
+#client = imgurpython.ImgurClient(imgur_client_key, imgur_client_secret, imgur_access_token, imgur_refresh_token)
 
 user_name = 'VelvetBot'
 user = r.get_redditor(user_name)
@@ -36,10 +36,10 @@ for com in gen:
                 downloader = imguralbum.ImgurAlbumDownloader(seg)
                 print('This albums has ', int(downloader.num_images()/2), 'images')
                 downloader.save_images()
-                for (counter, image) in enumerate(downloader.imageIDs, start=1):
-                    if counter <= len(downloader.imageIDs) / 2:
-                        client.album_add_images(album_id, image[0])
-                        print('Image added to album')
+                #for (counter, image) in enumerate(downloader.imageIDs, start=1):
+                    #if counter <= len(downloader.imageIDs) / 2:
+                        #client.album_add_images(album_id, image[0])
+                        #print('Image added to album')
             elif 'i.imgur.com/' in seg:
                 print('Image: ',seg)
                 path = 'C:\\RWBY\\' + seg.split('imgur.com/')[1]
@@ -51,8 +51,8 @@ for com in gen:
                     except:
                         print('Download failed.')
                         os.remove(path)
-                client.album_add_images(album_id, seg.split('imgur.com/')[1].split('.')[0])
-                print('Image added to album')
+                #client.album_add_images(album_id, seg.split('imgur.com/')[1].split('.')[0])
+                #print('Image added to album')
     else:
         print('Found last comment, ending')
         f = open('C:\\RWBY\\lastcomment.txt', 'w')

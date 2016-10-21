@@ -10,7 +10,7 @@ r.set_oauth_app_info(client_id=app_key,
                      redirect_uri=redirect_url)
 r.refresh_access_information(refresh_token)
 
-client = imgurpython.ImgurClient(imgur_client_key, imgur_client_secret, imgur_access_token, imgur_refresh_token)
+#client = imgurpython.ImgurClient(imgur_client_key, imgur_client_secret, imgur_access_token, imgur_refresh_token)
 
 post_limit = 1000
 gen = r.search('site:imgur.com', subreddit='RWBY', sort='new')
@@ -33,19 +33,19 @@ for sub in gen:
             downloader = imguralbum.ImgurAlbumDownloader(sub.url)
             print('This albums has ', int(downloader.num_images()/2), 'images')
             downloader.save_images()
-            for (counter, image) in enumerate(downloader.imageIDs, start=1):
-                if counter <= len(downloader.imageIDs) / 2:
-                    client.album_add_images(album_id, image[0])
-                    print('Image added to album')
+            #for (counter, image) in enumerate(downloader.imageIDs, start=1):
+                #if counter <= len(downloader.imageIDs) / 2:
+                    #client.album_add_images(album_id, image[0])
+                    #print('Image added to album')
         elif 'imgur.com/gallery/' in sub.url:
             print('Gallery: ', sub.url)
             downloader = imguralbum.ImgurAlbumDownloader(sub.url.replace('gallery', 'a'))
             print('This albums has ', int(downloader.num_images() / 2), 'images')
             downloader.save_images()
-            for (counter, image) in enumerate(downloader.imageIDs, start=1):
-                if counter <= len(downloader.imageIDs) / 2:
-                    client.album_add_images(album_id, image[0])
-                    print('Image added to album')
+            #for (counter, image) in enumerate(downloader.imageIDs, start=1):
+                #if counter <= len(downloader.imageIDs) / 2:
+                    #client.album_add_images(album_id, image[0])
+                    #print('Image added to album')
         elif 'i.imgur.com/' in sub.url:
             print('Direct Image: ',sub.url)
             path = 'C:\\RWBY\\' + sub.url.split('imgur.com/')[1]
@@ -57,8 +57,8 @@ for sub in gen:
                 except:
                     print('Download failed.')
                     os.remove(path)
-            client.album_add_images(album_id, sub.url.split('imgur.com/')[1].split('.')[0])
-            print('Image added to album')
+            #client.album_add_images(album_id, sub.url.split('imgur.com/')[1].split('.')[0])
+            #print('Image added to album')
         elif 'imgur.com/' in sub.url:
             print('Image: ', sub.url)
             path = 'C:\\RWBY\\' + sub.url.split('imgur.com/')[1]+'.png'
@@ -70,8 +70,8 @@ for sub in gen:
                 except:
                     print('Download failed.')
                     os.remove(path)
-            client.album_add_images(album_id, sub.url.split('imgur.com/')[1])
-            print('Image added to album')
+            #client.album_add_images(album_id, sub.url.split('imgur.com/')[1])
+            #print('Image added to album')
     else:
         print('Found last submission, ending')
         f = open('C:\\RWBY\\lastsub.txt', 'w')
