@@ -3,17 +3,17 @@ import urllib.request, urllib.parse, urllib.error
 from tokens import app_key, app_secret, access_token, refresh_token, imgur_client_secret, imgur_client_key, imgur_access_token, imgur_refresh_token, album_id
 from settings import scopes, user_agent, redirect_url
 
-r = praw.Reddit(user_agent=user_agent)
-
-r.set_oauth_app_info(client_id=app_key,
-                      client_secret=app_secret,
-                     redirect_uri=redirect_url)
-r.refresh_access_information(refresh_token)
+r = praw.Reddit(user_agent=user_agent, client_id=app_key, client_secret=app_secret)
+#r.set_oauth_app_info(client_id=app_key,
+#                      client_secret=app_secret,
+#                     redirect_uri=redirect_url)
+#r.refresh_access_information(refresh_token)
 
 #client = imgurpython.ImgurClient(imgur_client_key, imgur_client_secret, imgur_access_token, imgur_refresh_token)
 
 post_limit = 1000
-gen = r.search('site:imgur.com', subreddit='RWBY', sort='new')
+#gen = r.search('site:imgur.com', subreddit='RWBY', sort='new')
+gen = r.subreddit('RWBY').search('site:imgur.com', sort='new')
 firstsub = 'HopeTheInfiteMonkeyTheorumIsWrong'
 if not os.path.exists('C:\\RWBY'):
     os.makedirs('C:\\RWBY')
